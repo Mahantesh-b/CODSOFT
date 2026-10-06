@@ -1,40 +1,67 @@
-#task 1-- simple calculator
-# Design a simple calculator with basic arithmetic operations.
-# Prompt the user to input two numbers and an operation choice.
-# Perform the calculation and display the result.
-while True:
-          
-         while True:
-                print("1.Addition")
-                print("2.Subtraction")
-                print("3.Multiplication")
-                print("4.Division")
-                operator=input("select the operator 1/2/3/4  ") #select operator
-                if operator== "1" or operator== "2" or operator== "3" or operator== "4": #if user select above operators
-                      break  #break loop 
-                else:
-                      print("invalid operator")
-                      continue  
-                
-                
-         number_1=float(input("Enter 1st number "))  # first number for calculation
-         number_2=float(input("Enter 2nd number "))  # second number for calculation
-     
+"""Simple Calculator - CODSOFT Python Internship Project."""
 
-         if(operator=="1"): 
-                print(number_1 ,"+",number_2,"=",number_1+number_2)  #addition
-         elif(operator=="2"):  
-                print(number_1 ,"-",number_2,"=",number_1-number_2)   #subtraction
-         elif(operator=="3"):
-                print(number_1 ,"*",number_2,"=",number_1*number_2)  #multiplication
-         elif(operator=="4"):
-                print(number_1 ,"/",number_2,"=",number_1/number_2) #division
-         else:
-                print("Invalid operator please enter correct opeartor")    
-               
-         choice=input("do you want next calculation, yes/no  ")  # user want next calculation
-         if choice!="no": 
+def get_number(prompt):
+    """Read and validate a numeric value from the user."""
+    while True:
+        try:
+            return float(input(prompt))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+
+def calculate(first, second, operation):
+    """Perform a calculation and return the result."""
+    if operation == "1":
+        return first + second
+    if operation == "2":
+        return first - second
+    if operation == "3":
+        return first * second
+    if operation == "4":
+        if second == 0:
+            raise ZeroDivisionError("Division by zero is not allowed.")
+        return first / second
+    raise ValueError("Invalid operation.")
+
+
+def main():
+    """Run the calculator application."""
+    operations = {
+        "1": ("Addition", "+"),
+        "2": ("Subtraction", "-"),
+        "3": ("Multiplication", "*"),
+        "4": ("Division", "/"),
+    }
+
+    print("\n=== Simple Calculator ===")
+
+    while True:
+        print("\n1. Addition")
+        print("2. Subtraction")
+        print("3. Multiplication")
+        print("4. Division")
+        print("5. Exit")
+
+        choice = input("Choose an operation: ").strip()
+
+        if choice == "5":
+            print("Thank you for using the calculator!")
+            break
+
+        if choice not in operations:
+            print("Invalid choice. Please select 1-5.")
             continue
-         else:
-            print(" Thankyou for using calculator \n calculator closed!")
-            break 
+
+        first = get_number("Enter first number: ")
+        second = get_number("Enter second number: ")
+
+        try:
+            result = calculate(first, second, choice)
+            symbol = operations[choice][1]
+            print(f"Result: {first:g} {symbol} {second:g} = {result:g}")
+        except ZeroDivisionError as error:
+            print(f"Error: {error}")
+
+
+if __name__ == "__main__":
+    main()
